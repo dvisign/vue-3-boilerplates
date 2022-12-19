@@ -1,0 +1,107 @@
+@import 'variables';
+
+// Mixin
+@mixin rel {
+  position: relative;
+}
+
+@mixin abs {
+  position: absolute;
+}
+
+@mixin fixed {
+  position: fixed;
+}
+
+@mixin center-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin flex-col {
+  flex-direction: column;
+}
+
+@mixin border ($color: w100, $position: all, $width: 1px) {
+  @if $position == all or $position == '' {
+    border-style: solid;
+    border-color: color($color);
+    border-width: $width;
+  }
+  @else {
+    border-#{ $position }-style: solid;
+    border-#{ $position }-color: color($color);
+    border-#{ $position }-width: $width;
+  }
+}
+
+@mixin layer($p: absolute, $i: auto, $t: auto, $l: auto, $r: auto, $b: auto) {
+  position: $p;
+  z-index: $i;
+  left: $l;
+  right: $r;
+  top: $t;
+  bottom: $b;
+}
+
+@mixin flex($h: flex-start, $v: stretch, $w: nowrap) {
+  display: flex;
+  justify-content: $h;
+  align-items: $v;
+  flex-wrap: $w;
+}
+
+
+// 반응형
+@mixin XS {
+  @media screen and (min-width: size(xs)) {
+    @content;
+  }
+}
+
+@mixin SM {
+  @media screen and (min-width: size(sm)) {
+    @content;
+  }
+}
+
+@mixin MD {
+  @media screen and (min-width: size(md)) {
+    @content;
+  }
+}
+
+@mixin LG {
+  @media screen and (min-width: size(lg)) {
+    @content;
+  }
+}
+
+@mixin XL {
+  @media screen and (min-width: size(xl)) {
+    @content;
+  }
+}
+
+
+
+// Theme
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme--#{ $theme } & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{ $key }');
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}

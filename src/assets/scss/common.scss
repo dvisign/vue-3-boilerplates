@@ -1,0 +1,45 @@
+@import 'reset';
+
+.wrapper {
+  width: 100%;
+  max-width: size(lg);
+}
+
+.theme-container {
+  .btn {
+    font-size: 1em;
+    padding: 0.75em 1.5em;
+    border: 1px solid transparent;
+    margin-left: 0.25em;
+    &.btn-sm {
+      font-size: 0.875em;
+    }
+    &.btn-lg {
+      font-size: 1.125em;
+    }
+    @each $color in $colors {
+      &.btn-#{$color} {
+        background-color: color(#{$color});
+        color: txt-color(#{$color});
+        @if $color == transparency {
+          background-color: transparent;
+          color: color(w0);
+          border: 1px solid color(w80);
+        }
+        &:hover {
+          @if $color != transparency {
+            background-color: rgba(color(#{$color}), 0.85);
+          }
+        }
+      }
+    }
+  }
+
+  &.theme--default {
+    // TODO :: 미정
+  }
+
+  &.theme--dark {
+    // TODO :: 미정
+  }
+}
